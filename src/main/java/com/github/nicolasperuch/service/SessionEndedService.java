@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SessionStartedService {
+public class SessionEndedService {
 
     @Autowired
     private Gson gson;
 
-    public void openRulingForVote(Message message){
+    public void closeRuling(Message message){
         byte[] messageAsBytes = transformMessageToBytes(message);
         String messageAsJson = transformBytesToJson(messageAsBytes);
         OpenRulingForVoteModel messageAsModel = transformJsonToModel(messageAsJson);
         System.out.println(messageAsModel.toString());
-        //enable for voting into database
+        //disabling for voting into database
     }
 
     public byte[] transformMessageToBytes(Message message){
