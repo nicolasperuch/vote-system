@@ -1,20 +1,39 @@
 package com.github.nicolasperuch.api;
 
+import com.github.nicolasperuch.api.dto.VoteDto;
+import com.github.nicolasperuch.model.VoteModel;
+import com.github.nicolasperuch.service.VoteService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.ResponseEntity.ok;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("vote")
 public class VoteApi {
 
-    @ApiOperation(value = "This is a hi endpoint!")
-    @GetMapping
-    public ResponseEntity<?> sayHi(){
-        return ok("hi");
+    @Autowired
+    private VoteService voteService;
+
+    @ApiOperation(value = "Vote for a specific ruling")
+    @PostMapping("{rulingId}")
+    public ResponseEntity<?> voteForASpecificRuling(@PathVariable("rulingId") Long rulingId,
+                                                    @RequestBody VoteDto voteDto){
+        return Stream
+                .of(buildVoteModel(rulingId, voteDto))
+                .map(model -> voteService.computeVote(model))
+                .map(ResponseEntity::ok)
+                .findFirst()
+                .get();
+    }
+
+    public VoteModel buildVoteModel(Long rulingId, VoteDto voteDto){
+        return new VoteModel()
+                    .setRulingId(rulingId)
+                    .setUserId(voteDto.getUserId())
+                    .setUserCpf(voteDto.getUserCpf())
+                    .setInFavor(voteDto.isInFavor());
     }
 }
