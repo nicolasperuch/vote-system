@@ -14,12 +14,16 @@ public class VoteService {
     @Autowired
     private RestClient restClient;
     private final String ABLE_TO_VOTE = "ABLE_TO_VOTE";
+    private final String INVALID_CPF_MESSAGE = "Your cpf is not able to vote";
+    private final String VOTE_COMPUTED_MESSAGE = "Vote succesfully computed";
 
     public VoteResponse computeVote(VoteModel voteModel){
         //isRulingOpenForVote?
-        isUserAbleToVote(voteModel.getUserCpf());
+        if(!isUserAbleToVote(voteModel.getUserCpf())){
+            return new VoteResponse(INVALID_CPF_MESSAGE);
+        }
         //save vote into database
-        return new VoteResponse("Vote succesfully computed");
+        return new VoteResponse(VOTE_COMPUTED_MESSAGE);
     }
 
     public boolean isUserAbleToVote(String cpf) {
