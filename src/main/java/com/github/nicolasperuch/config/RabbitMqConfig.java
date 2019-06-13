@@ -62,5 +62,4 @@ public class RabbitMqConfig extends RabbitVoteConfig{
         rabbitAdmin.declareBinding(bindingExchangeToSessionEndedQueue());
         return rabbitAdmin;
     }
-
 }
