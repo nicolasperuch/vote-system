@@ -1,14 +1,14 @@
 package com.github.nicolasperuch.model;
 
 public class OpenRulingForVoteModel {
-    private Long rulingId;
+    private Integer rulingId;
     private String remainingTime;
 
-    public Long getRulingId() {
+    public Integer getRulingId() {
         return rulingId;
     }
 
-    public void setRulingId(Long rulingId) {
+    public void setRulingId(Integer rulingId) {
         this.rulingId = rulingId;
     }
 

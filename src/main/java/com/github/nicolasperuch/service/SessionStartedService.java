@@ -1,6 +1,8 @@
 package com.github.nicolasperuch.service;
 
+import com.github.nicolasperuch.entity.RulingStatusEntity;
 import com.github.nicolasperuch.model.OpenRulingForVoteModel;
+import com.github.nicolasperuch.repository.RulingStatusRepository;
 import com.google.gson.Gson;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,15 @@ public class SessionStartedService {
 
     @Autowired
     private Gson gson;
+    @Autowired
+    private RulingStatusRepository rulingStatusRepository;
 
     public void openRulingForVote(Message message){
         byte[] messageAsBytes = transformMessageToBytes(message);
         String messageAsJson = transformBytesToJson(messageAsBytes);
         OpenRulingForVoteModel messageAsModel = transformJsonToModel(messageAsJson);
-        System.out.println(messageAsModel.toString());
-        //enable for voting into database
+        RulingStatusEntity rulingStatusEntity = buildEntity(messageAsModel);
+        rulingStatusRepository.save(rulingStatusEntity);
     }
 
     public byte[] transformMessageToBytes(Message message){
@@ -30,5 +34,13 @@ public class SessionStartedService {
 
     public OpenRulingForVoteModel transformJsonToModel(String json){
         return gson.fromJson(json, OpenRulingForVoteModel.class);
+    }
+
+    public RulingStatusEntity buildEntity(OpenRulingForVoteModel openRulingForVoteModel){
+        RulingStatusEntity rulingStatusEntity = new RulingStatusEntity();
+        rulingStatusEntity.setOpenForVote(true);
+        rulingStatusEntity.setRulingId(openRulingForVoteModel.getRulingId());
+        rulingStatusEntity.setRulingFinished(false);
+        return rulingStatusEntity;
     }
 }

@@ -13,10 +13,12 @@ public class RulingStatusEntity {
     private Integer id;
     @Column(name = "ruling_id")
     private Integer rulingId;
-    @Column(name = "user_id")
-    private Integer userId;
-    @Column(name = "in_favor")
-    private boolean inFavor;
+    @Column(name = "open_for_vote")
+    private boolean isOpenForVote;
+    @Column(name = "finished")
+    private boolean isRulingFinished;
+    @Column(name = "result")
+    private boolean rulingResult;
 
     public Integer getId() {
         return id;
@@ -34,19 +36,27 @@ public class RulingStatusEntity {
         this.rulingId = rulingId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public boolean isOpenForVote() {
+        return isOpenForVote;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOpenForVote(boolean openForVote) {
+        isOpenForVote = openForVote;
     }
 
-    public boolean isInFavor() {
-        return inFavor;
+    public boolean isRulingFinished() {
+        return isRulingFinished;
     }
 
-    public void setInFavor(boolean inFavor) {
-        this.inFavor = inFavor;
+    public void setRulingFinished(boolean rulingFinished) {
+        isRulingFinished = rulingFinished;
+    }
+
+    public boolean isRulingResult() {
+        return rulingResult;
+    }
+
+    public void setRulingResult(boolean rulingResult) {
+        this.rulingResult = rulingResult;
     }
 }
