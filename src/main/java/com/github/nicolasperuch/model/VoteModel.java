@@ -1,25 +1,25 @@
 package com.github.nicolasperuch.model;
 
 public class VoteModel {
-    private Long rulingId;
-    private Long userId;
+    private Integer rulingId;
+    private Integer userId;
     private String userCpf;
     private boolean inFavor;
 
-    public Long getRulingId() {
+    public Integer getRulingId() {
         return rulingId;
     }
 
-    public VoteModel setRulingId(Long rulingId) {
+    public VoteModel setRulingId(Integer rulingId) {
         this.rulingId = rulingId;
         return this;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public VoteModel setUserId(Long userId) {
+    public VoteModel setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }

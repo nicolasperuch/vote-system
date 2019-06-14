@@ -26,7 +26,7 @@ public class VoteApi extends ExceptionHandlerApi {
 
     @ApiOperation(value = "Vote for a specific ruling")
     @PostMapping("{rulingId}")
-    public ResponseEntity<?> voteForASpecificRuling(@PathVariable("rulingId") Long rulingId,
+    public ResponseEntity<?> voteForASpecificRuling(@PathVariable("rulingId") Integer rulingId,
                                                     @RequestBody VoteDto voteDto){
         return Stream
                 .of(buildVoteModel(rulingId, voteDto))
@@ -41,7 +41,7 @@ public class VoteApi extends ExceptionHandlerApi {
         return ok(rulingStatusRepository.findAll());
     }
 
-    public VoteModel buildVoteModel(Long rulingId, VoteDto voteDto){
+    public VoteModel buildVoteModel(Integer rulingId, VoteDto voteDto){
         return new VoteModel()
                     .setRulingId(rulingId)
                     .setUserId(voteDto.getUserId())
