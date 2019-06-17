@@ -26,17 +26,25 @@ public class VoteService {
     private final String ABLE_TO_VOTE = "ABLE_TO_VOTE";
     private final String INVALID_CPF_MESSAGE = "Your cpf is not able to vote";
     private final String VOTE_COMPUTED_MESSAGE = "Vote succesfully computed";
-    private final String UNVAILABLE_RULING = "Ruling not available";
+    private final String UNVAILABLE_RULING_MESSAGE = "Ruling not available";
+    private final String USER_CANT_VOTE_TWICE_MESSAGE = "You can not vote twice in the same ruling";
 
     public VoteResponse computeVote(VoteModel voteModel){
         Optional<RulingStatusEntity> rulingStatusEntity = rulingStatusRepository.findByRulingId(voteModel.getRulingId());
         if(!isRulingOpenForVote(rulingStatusEntity)){
-            return new VoteResponse(UNVAILABLE_RULING);
+            return new VoteResponse(UNVAILABLE_RULING_MESSAGE);
         }
         if(!isUserAbleToVote(voteModel.getUserCpf())){
             return new VoteResponse(INVALID_CPF_MESSAGE);
         }
+        if(hasUserAlreadyVotedInThisRuling(voteModel.getRulingId(), voteModel.getUserId())){
+            return new VoteResponse(USER_CANT_VOTE_TWICE_MESSAGE);
+        }
         return saveVote(voteModel);
+    }
+
+    public boolean hasUserAlreadyVotedInThisRuling(Integer rulingId, Integer userId){
+        return rulingVoteRepository.existsByRulingIdAndUserId(rulingId, userId);
     }
 
     public VoteResponse saveVote(VoteModel voteModel) {

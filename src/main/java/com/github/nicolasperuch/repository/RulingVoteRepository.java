@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RulingVoteRepository extends CrudRepository<RulingVoteEntity, Integer> {
     List<RulingVoteEntity> findByRulingId(Integer rulingId);
+    boolean existsByRulingIdAndUserId(Integer rulingId, Integer userId);
 }
