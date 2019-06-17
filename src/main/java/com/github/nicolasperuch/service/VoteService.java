@@ -4,8 +4,10 @@ import com.github.nicolasperuch.api.dto.VoteResponse;
 import com.github.nicolasperuch.client.RestClient;
 import com.github.nicolasperuch.client.dto.CpfValidationResponse;
 import com.github.nicolasperuch.entity.RulingStatusEntity;
+import com.github.nicolasperuch.entity.RulingVoteEntity;
 import com.github.nicolasperuch.model.VoteModel;
 import com.github.nicolasperuch.repository.RulingStatusRepository;
+import com.github.nicolasperuch.repository.RulingVoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class VoteService {
     private RestClient restClient;
     @Autowired
     private RulingStatusRepository rulingStatusRepository;
+    @Autowired
+    private RulingVoteRepository rulingVoteRepository;
     private final String ABLE_TO_VOTE = "ABLE_TO_VOTE";
     private final String INVALID_CPF_MESSAGE = "Your cpf is not able to vote";
     private final String VOTE_COMPUTED_MESSAGE = "Vote succesfully computed";
@@ -32,8 +36,21 @@ public class VoteService {
         if(!isUserAbleToVote(voteModel.getUserCpf())){
             return new VoteResponse(INVALID_CPF_MESSAGE);
         }
-        //save vote into database
+        return saveVote(voteModel);
+    }
+
+    public VoteResponse saveVote(VoteModel voteModel) {
+        RulingVoteEntity rulingVoteEntity = modelToEntity(voteModel);
+        rulingVoteRepository.save(rulingVoteEntity);
         return new VoteResponse(VOTE_COMPUTED_MESSAGE);
+    }
+
+    public RulingVoteEntity modelToEntity(VoteModel voteModel){
+        RulingVoteEntity rulingVoteEntity = new RulingVoteEntity();
+        rulingVoteEntity.setUserId(voteModel.getUserId());
+        rulingVoteEntity.setRulingId(voteModel.getRulingId());
+        rulingVoteEntity.setInFavor(voteModel.isInFavor());
+        return rulingVoteEntity;
     }
 
     public boolean isRulingOpenForVote(Optional<RulingStatusEntity> rulingStatusEntity){
