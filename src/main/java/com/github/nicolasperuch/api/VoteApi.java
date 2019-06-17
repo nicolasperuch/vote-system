@@ -23,7 +23,6 @@ public class VoteApi extends ExceptionHandlerApi {
     @Autowired
     private RulingStatusRepository rulingStatusRepository;
 
-
     @ApiOperation(value = "Vote for a specific ruling")
     @PostMapping("{rulingId}")
     public ResponseEntity<?> voteForASpecificRuling(@PathVariable("rulingId") Integer rulingId,

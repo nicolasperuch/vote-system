@@ -6,7 +6,7 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-@Table(name = "ruling_vote", schema = "vote")
+@Table(name = "ruling_votes", schema = "vote")
 public class RulingVoteEntity {
 
     @Id
