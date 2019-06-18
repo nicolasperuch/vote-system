@@ -50,4 +50,15 @@ public class RulingVoteEntity {
     public void setInFavor(boolean inFavor) {
         this.inFavor = inFavor;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("RulingVoteEntity{");
+        sb.append("id=").append(id);
+        sb.append(", rulingId=").append(rulingId);
+        sb.append(", userId=").append(userId);
+        sb.append(", inFavor=").append(inFavor);
+        sb.append('}');
+        return sb.toString();
+    }
 }
