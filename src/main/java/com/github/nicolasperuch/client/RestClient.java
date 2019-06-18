@@ -4,6 +4,7 @@ import com.github.nicolasperuch.client.dto.CpfValidationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +17,7 @@ public class RestClient {
     private RestTemplate restTemplate;
     private final String BASE_CPF_VALIDATION_URI = "https://user-info.herokuapp.com/users/";
 
-    public HttpEntity<CpfValidationResponse> checkIfCpfIsAbleToVote(String cpf){
+    public ResponseEntity<CpfValidationResponse> checkIfCpfIsAbleToVote(String cpf){
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(buildUrl(cpf), GET, entity, CpfValidationResponse.class);
